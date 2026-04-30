@@ -49,7 +49,13 @@
     <!-- Legacy/Keep for compat -->
     <color name="purple_dark">#4A2C8F</color>
     <color name="purple_primary">#9C88D9</color>
+    <color name="purple_medium">#7E67C5</color>
+    <color name="purple_light">#D1C4E9</color>
     <color name="lavender">#9C88D9</color>
     <color name="lavender_light_transparent">#1A9C88D9</color>
+
+    <!-- Missing Colors for build fix -->
+    <color name="background">#F5F0FF</color>
+    <color name="surface">#FFFFFF</color>
 
 </resources>

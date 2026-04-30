@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lavender_light">
+    android:background="@drawable/header_gradient_bg">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -14,37 +14,54 @@
 
         <ImageView
             android:id="@+id/ivLogo"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
             android:src="@drawable/ic_logo"
-            android:contentDescription="@string/app_name" />
+            android:contentDescription="@string/app_name"
+            android:padding="20dp"
+            android:background="@drawable/tag_bg_white_trans" />
 
         <TextView
             android:id="@+id/tvAppName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="28dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/app_name"
-            android:textColor="@color/purple_dark"
-            android:textSize="36sp" />
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            android:letterSpacing="0.05" />
 
         <TextView
             android:id="@+id/tvTagline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/poppins_medium"
             android:text="@string/tagline"
-            android:textColor="@color/lavender"
-            android:textSize="14sp" />
+            android:textColor="#E0E0E0"
+            android:textSize="15sp"
+            android:letterSpacing="0.1" />
 
         <ProgressBar
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="48dp"
-            android:indeterminateTint="@color/white" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="64dp"
+            android:indeterminateTint="@color/white"
+            style="?android:attr/progressBarStyleLarge" />
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/poppins_regular"
+        android:text="Fast Delivery • Quality Products"
+        android:textColor="#B0FFFFFF"
+        android:textSize="12sp"
+        android:letterSpacing="0.1" />
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lavender_pale"
+    android:background="?android:attr/windowBackground"
     android:scrollbars="none">
 
     <LinearLayout
@@ -14,183 +14,198 @@
         <!-- Profile Header -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:background="@color/lavender"
+            android:layout_height="220dp"
+            android:background="@drawable/header_gradient_bg"
             android:gravity="center"
             android:orientation="vertical"
-            android:elevation="4dp">
+            android:elevation="8dp">
 
-            <ImageView
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="88dp"
+                android:layout_height="88dp"
                 android:src="@drawable/ic_account_circle"
-                android:tint="@color/white" />
+                android:tint="@color/white"
+                app:shapeAppearanceOverlay="@style/CircleImage"
+                android:padding="4dp"
+                android:background="@color/lavender_light_transparent" />
 
             <TextView
                 android:id="@+id/tvName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:fontFamily="@font/poppins_bold"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="22sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:fontFamily="@font/poppins_regular"
-                android:text="Seller Account"
-                android:textColor="@color/lavender_light"
-                android:textSize="12sp" />
+                android:fontFamily="@font/poppins_medium"
+                android:text="Trusted Seller"
+                android:textColor="#E0E0E0"
+                android:textSize="13sp"
+                android:background="@drawable/tag_bg_white_trans"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp" />
 
         </LinearLayout>
 
         <!-- Details Card -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="3dp"
-            app:cardBackgroundColor="@color/white">
+            android:layout_margin="20dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorSurface">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="@string/my_details"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp" />
+                    android:textColor="?attr/colorOnSurface"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="8dp"/>
 
                 <!-- Address -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/address_label"
-                    android:textColor="@color/lavender"
-                    android:textSize="11sp" />
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/detail_row_bg"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/detail_row_bg_theme"
                     android:fontFamily="@font/poppins_regular"
-                    android:padding="12dp"
-                    android:textColor="@color/text_primary"
+                    android:padding="14dp"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
                 <!-- Country -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/country"
-                    android:textColor="@color/lavender"
-                    android:textSize="11sp" />
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvCountry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/detail_row_bg"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/detail_row_bg_theme"
                     android:fontFamily="@font/poppins_regular"
-                    android:padding="12dp"
-                    android:textColor="@color/text_primary"
+                    android:padding="14dp"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
                 <!-- Date of Birth -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/date_of_birth"
-                    android:textColor="@color/lavender"
-                    android:textSize="11sp" />
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvDob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/detail_row_bg"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/detail_row_bg_theme"
                     android:fontFamily="@font/poppins_regular"
-                    android:padding="12dp"
-                    android:textColor="@color/text_primary"
+                    android:padding="14dp"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
                 <!-- Gender -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/gender"
-                    android:textColor="@color/lavender"
-                    android:textSize="11sp" />
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvGender"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/detail_row_bg"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/detail_row_bg_theme"
                     android:fontFamily="@font/poppins_regular"
-                    android:padding="12dp"
-                    android:textColor="@color/text_primary"
+                    android:padding="14dp"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
                 <!-- Phone -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/poppins_regular"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/poppins_medium"
                     android:text="@string/phone_number"
-                    android:textColor="@color/lavender"
-                    android:textSize="11sp" />
+                    android:textColor="?attr/colorPrimary"
+                    android:textSize="12sp"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/detail_row_bg"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/detail_row_bg_theme"
                     android:fontFamily="@font/poppins_regular"
-                    android:padding="12dp"
-                    android:textColor="@color/text_primary"
+                    android:padding="14dp"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="14sp" />
 
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Logout Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogout"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="32dp"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/log_out"
             android:textColor="@color/white"
-            android:textSize="15sp"
-            app:backgroundTint="@color/error_red"
-            app:cornerRadius="26dp" />
+            android:textSize="16sp"
+            app:backgroundTint="@color/error"
+            app:cornerRadius="30dp"
+            app:elevation="4dp" />
 
     </LinearLayout>
 </ScrollView>
