@@ -13,7 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+
+import android.util.Log;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -57,27 +67,41 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = products.get(position);
 
         // Load image: prefer imageUrl from Firebase, fallback to local drawable
-        if (product.imageUrl != null && !product.imageUrl.isEmpty()) {
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
             Glide.with(context)
-                    .load(product.imageUrl)
+                    .load(product.getImageUrl())
+                    .listener(new RequestListener<android.graphics.drawable.Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
+                            Log.e("GlideError", "IMAGE FAILED: " + product.getImageUrl());
+                            if (e != null) e.logRootCauses("GlideError");
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, Target<android.graphics.drawable.Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            Log.d("GlideSuccess", "Loaded: " + product.getImageUrl());
+                            return false;
+                        }
+                    })
                     .placeholder(R.drawable.product_default)
                     .error(R.drawable.product_default)
                     .centerCrop()
                     .into(holder.ivProductImage);
         } else {
             holder.ivProductImage.setImageResource(
-                    product.imageResId != 0 ? product.imageResId : R.drawable.product_default);
+                    product.getImageResId() != 0 ? product.getImageResId() : R.drawable.product_default);
         }
 
-        holder.tvProductName.setText(product.name);
-        holder.tvProductType.setText(product.type);
-        holder.tvProductPrice.setText("$" + String.format("%.2f", product.price));
+        holder.tvProductName.setText(product.getName());
+        holder.tvProductType.setText(product.getType());
+        holder.tvProductPrice.setText("$" + String.format("%.2f", product.getPrice()));
 
         if (isSeller) {
             holder.ibFavourite.setVisibility(View.GONE);
         } else {
             holder.ibFavourite.setVisibility(View.VISIBLE);
-            boolean isFav = DatabaseHelper.getInstance(context).isFavourite(product.productId);
+            boolean isFav = DatabaseHelper.getInstance(context).isFavourite(product.getProductId());
             holder.ibFavourite.setImageResource(isFav ? R.drawable.ic_heart_filled : R.drawable.ic_heart_outline);
 
             holder.ibFavourite.setOnClickListener(v -> {

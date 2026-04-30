@@ -96,7 +96,7 @@ public class CartFragment extends Fragment {
             if (cartItems != null) {
                 for (DatabaseHelper.CartItem item : cartItems) {
                     if (item != null && item.product != null) {
-                        total += item.product.price * item.quantity;
+                        total += item.product.getPrice() * item.quantity;
                     }
                 }
             }
@@ -124,19 +124,19 @@ public class CartFragment extends Fragment {
 
         int itemCount = 1;
         for (DatabaseHelper.CartItem item : cartItems) {
-            double itemTotal = item.product.price * item.quantity;
+            double itemTotal = item.product.getPrice() * item.quantity;
             total += itemTotal;
-            sms.append(item.product.name)
+            sms.append(item.product.getName())
                     .append(" x").append(item.quantity)
                     .append(" = $").append(String.format("%.2f", itemTotal)).append("\n");
 
             Order.OrderItem orderItem = new Order.OrderItem(
-                    item.product.productId, item.product.name,
-                    item.product.price, item.quantity);
+                    item.product.getProductId(), item.product.getName(),
+                    item.product.getPrice(), item.quantity);
             orderItemsMap.put("item" + itemCount, orderItem);
             itemCount++;
 
-            sellerMap.put(item.product.sellerId, item.product.sellerId);
+            sellerMap.put(item.product.getSellerId(), item.product.getSellerId());
         }
         sms.append("Total: $").append(String.format("%.2f", total));
 
@@ -146,13 +146,13 @@ public class CartFragment extends Fragment {
 
         for (String sellerId : sellerMap.keySet()) {
             Order order = new Order();
-            order.orderId = orderId;
-            order.buyerId = buyerId;
-            order.sellerId = sellerId;
-            order.status = "Processing";
-            order.orderDate = orderDate;
-            order.totalAmount = total;
-            order.items = orderItemsMap;
+            order.setOrderId(orderId);
+            order.setBuyerId(buyerId);
+            order.setSellerId(sellerId);
+            order.setStatus("Processing");
+            order.setOrderDate(orderDate);
+            order.setTotalAmount(total);
+            order.setItems(orderItemsMap);
 
             // ✅ Store flat at /orders/{orderId}
             FirebaseDatabase.getInstance().getReference("orders")

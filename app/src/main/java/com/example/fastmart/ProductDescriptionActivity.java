@@ -39,14 +39,19 @@ public class ProductDescriptionActivity extends AppCompatActivity {
         String type = getIntent().getStringExtra("type");
         double price = getIntent().getDoubleExtra("price", 0);
         String description = getIntent().getStringExtra("description");
-        String imageUrl = getIntent().getStringExtra("imageUrl");   // ✅ use imageUrl
+        String imageUrl = getIntent().getStringExtra("imageUrl");
         String sellerId = getIntent().getStringExtra("sellerId");
         boolean isSeller = getIntent().getBooleanExtra("isSeller", false);
 
         // Load image via Glide
         if (imageUrl != null && !imageUrl.isEmpty()) {
+            // Re-fetch through Product model for safety
+            Product temp = new Product();
+            temp.setImageUrl(imageUrl);
+            String usableUrl = temp.getImageUrl();
+            
             Glide.with(this)
-                    .load(imageUrl)
+                    .load(usableUrl)
                     .placeholder(R.drawable.product_default)
                     .error(R.drawable.product_default)
                     .centerCrop()

@@ -56,21 +56,32 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
         Product product = favourites.get(position);
 
         // ✅ Load from imageUrl with Glide
-        if (product.imageUrl != null && !product.imageUrl.isEmpty()) {
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
             Glide.with(context)
-                    .load(product.imageUrl)
+                    .load(product.getImageUrl())
+                    .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@androidx.annotation.Nullable com.bumptech.glide.load.engine.GlideException e, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
+                            android.util.Log.e("GlideError_Fav", "FAILED: " + product.getImageUrl());
+                            return false;
+                        }
+                        @Override
+                        public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
                     .placeholder(R.drawable.product_default)
                     .error(R.drawable.product_default)
                     .centerCrop()
                     .into(holder.ivProductImage);
         } else {
             holder.ivProductImage.setImageResource(
-                    product.imageResId != 0 ? product.imageResId : R.drawable.product_default);
+                    product.getImageResId() != 0 ? product.getImageResId() : R.drawable.product_default);
         }
 
-        holder.tvProductName.setText(product.name);
-        holder.tvProductType.setText(product.type);
-        holder.tvProductPrice.setText("$" + String.format("%.2f", product.price));
+        holder.tvProductName.setText(product.getName());
+        holder.tvProductType.setText(product.getType());
+        holder.tvProductPrice.setText("$" + String.format("%.2f", product.getPrice()));
 
         holder.ibCartFav.setOnClickListener(v -> {
             if (cartClickListener != null) cartClickListener.onAddToCart(product);
@@ -79,7 +90,7 @@ public class FavouritesAdapter extends RecyclerView.Adapter<FavouritesAdapter.Fa
         holder.ibMoreOptions.setOnClickListener(v -> {
             new AlertDialog.Builder(context)
                     .setTitle("Remove from Favourites")
-                    .setMessage("Remove " + product.name + " from favourites?")
+                    .setMessage("Remove " + product.getName() + " from favourites?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         if (deleteClickListener != null) deleteClickListener.onDelete(product);
                     })

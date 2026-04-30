@@ -68,25 +68,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private ContentValues productToValues(Product p) {
         ContentValues cv = new ContentValues();
-        cv.put(COL_PRODUCT_ID, p.productId);
-        cv.put(COL_SELLER_ID, p.sellerId);
-        cv.put(COL_NAME, p.name);
-        cv.put(COL_TYPE, p.type);
-        cv.put(COL_DESCRIPTION, p.description);
-        cv.put(COL_PRICE, p.price);
-        cv.put(COL_IMAGE_URL, p.imageUrl != null ? p.imageUrl : "");
+        cv.put(COL_PRODUCT_ID, p.getProductId());
+        cv.put(COL_SELLER_ID, p.getSellerId());
+        cv.put(COL_NAME, p.getName());
+        cv.put(COL_TYPE, p.getType());
+        cv.put(COL_DESCRIPTION, p.getDescription());
+        cv.put(COL_PRICE, p.getPrice());
+        cv.put(COL_IMAGE_URL, p.getImageUrl() != null ? p.getImageUrl() : "");
         return cv;
     }
 
     private Product cursorToProduct(Cursor c) {
         Product p = new Product();
-        p.productId = c.getString(c.getColumnIndexOrThrow(COL_PRODUCT_ID));
-        p.sellerId = c.getString(c.getColumnIndexOrThrow(COL_SELLER_ID));
-        p.name = c.getString(c.getColumnIndexOrThrow(COL_NAME));
-        p.type = c.getString(c.getColumnIndexOrThrow(COL_TYPE));
-        p.description = c.getString(c.getColumnIndexOrThrow(COL_DESCRIPTION));
-        p.price = c.getDouble(c.getColumnIndexOrThrow(COL_PRICE));
-        p.imageUrl = c.getString(c.getColumnIndexOrThrow(COL_IMAGE_URL));
+        p.setProductId(c.getString(c.getColumnIndexOrThrow(COL_PRODUCT_ID)));
+        p.setSellerId(c.getString(c.getColumnIndexOrThrow(COL_SELLER_ID)));
+        p.setName(c.getString(c.getColumnIndexOrThrow(COL_NAME)));
+        p.setType(c.getString(c.getColumnIndexOrThrow(COL_TYPE)));
+        p.setDescription(c.getString(c.getColumnIndexOrThrow(COL_DESCRIPTION)));
+        p.setPrice(c.getDouble(c.getColumnIndexOrThrow(COL_PRICE)));
+        p.setImageUrl(c.getString(c.getColumnIndexOrThrow(COL_IMAGE_URL)));
         return p;
     }
 
@@ -121,12 +121,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void addToCart(Product p) {
         SQLiteDatabase db = getWritableDatabase();
         Cursor c = db.query(TABLE_CART, new String[]{COL_QUANTITY},
-                COL_PRODUCT_ID + "=?", new String[]{p.productId}, null, null, null);
+                COL_PRODUCT_ID + "=?", new String[]{p.getProductId()}, null, null, null);
         if (c.moveToFirst()) {
             int qty = c.getInt(0) + 1;
             ContentValues cv = new ContentValues();
             cv.put(COL_QUANTITY, qty);
-            db.update(TABLE_CART, cv, COL_PRODUCT_ID + "=?", new String[]{p.productId});
+            db.update(TABLE_CART, cv, COL_PRODUCT_ID + "=?", new String[]{p.getProductId()});
         } else {
             ContentValues cv = productToValues(p);
             cv.put(COL_QUANTITY, 1);

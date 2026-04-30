@@ -65,13 +65,13 @@ public class SellerHomeFragment extends Fragment {
 
         adapter.setOnProductClickListener(product -> {
             Intent intent = new Intent(getContext(), ProductDescriptionActivity.class);
-            intent.putExtra("productId", product.productId);
-            intent.putExtra("sellerId", product.sellerId);
-            intent.putExtra("name", product.name);
-            intent.putExtra("type", product.type);
-            intent.putExtra("price", product.price);
-            intent.putExtra("description", product.description);
-            intent.putExtra("imageUrl", product.imageUrl);  // ✅ pass imageUrl
+            intent.putExtra("productId", product.getProductId());
+            intent.putExtra("sellerId", product.getSellerId());
+            intent.putExtra("name", product.getName());
+            intent.putExtra("type", product.getType());
+            intent.putExtra("price", product.getPrice());
+            intent.putExtra("description", product.getDescription());
+            intent.putExtra("imageUrl", product.getImageUrl());  // ✅ pass imageUrl
             intent.putExtra("isSeller", true);
             startActivity(intent);
         });

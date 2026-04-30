@@ -49,7 +49,7 @@ public class FavouritesFragment extends Fragment {
                     .setTitle("Remove Favourite")
                     .setMessage("Do you want to delete this product from favourites?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        db.removeFavourite(product.productId);
+                        db.removeFavourite(product.getProductId());
                         favouritesList.remove(product);
                         adapter.notifyDataSetChanged();
                     })
@@ -59,7 +59,7 @@ public class FavouritesFragment extends Fragment {
 
         adapter.setOnCartClickListener(product -> {
             db.addToCart(product);
-            Toast.makeText(getContext(), product.name + " added to cart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), product.getName() + " added to cart", Toast.LENGTH_SHORT).show();
         });
     }
 
