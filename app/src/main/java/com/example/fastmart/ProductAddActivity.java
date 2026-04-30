@@ -18,7 +18,7 @@ import java.util.UUID;
 
 public class ProductAddActivity extends AppCompatActivity {
 
-    private EditText etProductName, etProductPrice, etProductDescription;
+    private EditText etProductName, etProductPrice, etProductDescription, etProductImageUrl;
     private Spinner spinnerProductType;
     private Button btnAddProduct;
 
@@ -35,6 +35,7 @@ public class ProductAddActivity extends AppCompatActivity {
         etProductName = findViewById(R.id.etProductName);
         etProductPrice = findViewById(R.id.etProductPrice);
         etProductDescription = findViewById(R.id.etProductDescription);
+        etProductImageUrl = findViewById(R.id.etProductImageUrl);
         spinnerProductType = findViewById(R.id.spinnerProductType);
         btnAddProduct = findViewById(R.id.btnAddProduct);
 
@@ -51,6 +52,7 @@ public class ProductAddActivity extends AppCompatActivity {
         String priceStr = etProductPrice.getText().toString().trim();
         String description = etProductDescription.getText().toString().trim();
         String type = spinnerProductType.getSelectedItem().toString();
+        String imageUrl = etProductImageUrl.getText().toString().trim();
 
         if (name.isEmpty() || priceStr.isEmpty() || description.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
@@ -69,11 +71,12 @@ public class ProductAddActivity extends AppCompatActivity {
         String sellerId = prefs.getString("uid", "");
 
         String productId = "prod_" + UUID.randomUUID().toString().substring(0, 8);
+        imageUrl = convertDriveLink(imageUrl);
 
-        // ✅ Use imageUrl (empty string for new products, can be updated later)
-        Product product = new Product(productId, sellerId, name, type, description, price, "");
-        product.stock = 0;
-        product.rating = 0.0;
+        // ✅ Use imageUrl (converted if drive link)
+        Product product = new Product(productId, sellerId, name, type, description, price, imageUrl);
+        product.stock = 10; // Default stock
+        product.rating = 4.5; // Default rating for new product
 
         FirebaseDatabase.getInstance().getReference("products").child(productId)
                 .setValue(product).addOnCompleteListener(task -> {
@@ -84,6 +87,29 @@ public class ProductAddActivity extends AppCompatActivity {
                         Toast.makeText(this, "Failed to add product", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private String convertDriveLink(String link) {
+        if (link == null || link.isEmpty()) return "";
+        if (link.contains("drive.google.com")) {
+            String fileId = "";
+            if (link.contains("/d/")) {
+                int start = link.indexOf("/d/") + 3;
+                int end = link.indexOf("/", start);
+                if (end == -1) end = link.indexOf("?", start);
+                if (end == -1) end = link.length();
+                fileId = link.substring(start, end);
+            } else if (link.contains("id=")) {
+                int start = link.indexOf("id=") + 3;
+                int end = link.indexOf("&", start);
+                if (end == -1) end = link.length();
+                fileId = link.substring(start, end);
+            }
+            if (!fileId.isEmpty()) {
+                return "https://drive.google.com/uc?export=download&id=" + fileId;
+            }
+        }
+        return link;
     }
 
     @Override
