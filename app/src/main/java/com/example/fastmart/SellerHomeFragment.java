@@ -77,31 +77,47 @@ public class SellerHomeFragment extends Fragment {
     }
 
     private void loadSellerProducts(String sellerId) {
+        if (sellerId == null || sellerId.isEmpty()) {
+            View emptyState = getView().findViewById(R.id.llEmptyState);
+            if (emptyState != null) emptyState.setVisibility(View.VISIBLE);
+            return;
+        }
+
         FirebaseDatabase.getInstance().getReference("products")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!isAdded()) return;
+                        
                         productList.clear();
                         for (DataSnapshot snap : snapshot.getChildren()) {
-                            Product product = snap.getValue(Product.class);
-                            if (product != null && sellerId.equals(product.sellerId)) {
-                                productList.add(product);
+                            try {
+                                Product product = snap.getValue(Product.class);
+                                if (product != null && sellerId.equals(product.sellerId)) {
+                                    productList.add(product);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
                         adapter.notifyDataSetChanged();
                         
                         // Handle empty state
-                        View emptyState = getView().findViewById(R.id.llEmptyState);
-                        if (emptyState != null) {
-                            emptyState.setVisibility(productList.isEmpty() ? View.VISIBLE : View.GONE);
-                            rvSellerProducts.setVisibility(productList.isEmpty() ? View.GONE : View.VISIBLE);
+                        View view = getView();
+                        if (view != null) {
+                            View emptyState = view.findViewById(R.id.llEmptyState);
+                            if (emptyState != null) {
+                                boolean isEmpty = productList.isEmpty();
+                                emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+                                rvSellerProducts.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+                            }
                         }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         if (isAdded()) {
-                            Toast.makeText(getContext(), "Failed to load products", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Database Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

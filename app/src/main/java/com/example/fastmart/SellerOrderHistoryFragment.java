@@ -51,12 +51,13 @@ public class SellerOrderHistoryFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("fastmart_prefs", Context.MODE_PRIVATE);
         String sellerId = prefs.getString("uid", "");
 
-        // ✅ FIX: Orders are stored flat at /orders/{orderId}, each order has sellerId field
-        // Filter by sellerId of current seller
+        if (sellerId.isEmpty()) return;
+
         FirebaseDatabase.getInstance().getReference("orders")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (!isAdded()) return;
                         orderList.clear();
                         for (DataSnapshot snap : snapshot.getChildren()) {
                             Order order = snap.getValue(Order.class);
@@ -65,11 +66,21 @@ public class SellerOrderHistoryFragment extends Fragment {
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        
+                        View view = getView();
+                        if (view != null) {
+                            View emptyState = view.findViewById(R.id.llEmptyState);
+                            if (emptyState != null) {
+                                boolean isEmpty = orderList.isEmpty();
+                                emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+                                rvOrders.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+                            }
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Failed to load orders", Toast.LENGTH_SHORT).show();
+                        if (isAdded()) Toast.makeText(getContext(), "Error loading orders", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
