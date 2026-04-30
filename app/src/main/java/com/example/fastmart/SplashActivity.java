@@ -15,6 +15,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashactivity);
 
+        DatabaseInitializer.initialize();
         new Handler().postDelayed(() -> {
             SharedPreferences prefs = getSharedPreferences("fastmart_prefs", Context.MODE_PRIVATE);
             boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);

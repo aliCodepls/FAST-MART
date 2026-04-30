@@ -89,11 +89,20 @@ public class SellerHomeFragment extends Fragment {
                             }
                         }
                         adapter.notifyDataSetChanged();
+                        
+                        // Handle empty state
+                        View emptyState = getView().findViewById(R.id.llEmptyState);
+                        if (emptyState != null) {
+                            emptyState.setVisibility(productList.isEmpty() ? View.VISIBLE : View.GONE);
+                            rvSellerProducts.setVisibility(productList.isEmpty() ? View.GONE : View.VISIBLE);
+                        }
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(getContext(), "Failed to load products", Toast.LENGTH_SHORT).show();
+                        if (isAdded()) {
+                            Toast.makeText(getContext(), "Failed to load products", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }

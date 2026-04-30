@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary purple tones -->
-    <color name="purple_dark">#2D1B69</color>
-    <color name="purple_medium">#4A2C8F</color>
-    <color name="purple_light">#7C4DFF</color>
-    <color name="purple_primary">#7C4DFF</color>
+    <!-- Core Brand: Lavender & Deep Purple -->
+    <color name="primary">#9C88D9</color>
+    <color name="primary_variant">#7E67C5</color>
+    <color name="on_primary">#FFFFFF</color>
 
-    <!-- Lavender palette (main brand colors) -->
-    <color name="lavender">#9C88D9</color>
+    <color name="lavender_deep">#4A2C8F</color>
+    <color name="lavender_main">#9C88D9</color>
     <color name="lavender_mid">#B39DDB</color>
-    <color name="lavender_light">#EDE7F6</color>
+    <color name="lavender_light">#D1C4E9</color>
     <color name="lavender_pale">#F5F0FF</color>
-    <color name="lavender_soft">#D1C4E9</color>
+    <color name="lavender_soft">#EDE7F6</color>
 
-    <!-- Whites and neutrals -->
+    <!-- Neutrals: White & Gray -->
     <color name="white">#FFFFFF</color>
     <color name="off_white">#FAFAFA</color>
+    <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#EEEEEE</color>
+    <color name="gray_400">#BDBDBD</color>
+    <color name="gray_600">#757575</color>
+    <color name="gray_800">#424242</color>
     <color name="black">#000000</color>
-    <color name="gray_light">#F0F0F0</color>
-    <color name="gray_medium">#9E9E9E</color>
-    <color name="gray_dark">#616161</color>
 
-    <!-- Status colors -->
-    <color name="red_logout">#E57373</color>
-    <color name="error_red">#EF5350</color>
-    <color name="green_delivered">#66BB6A</color>
-    <color name="orange_transit">#FFA726</color>
-    <color name="blue_processing">#42A5F5</color>
-
-    <!-- Dark theme -->
+    <!-- Dark Theme (Light Black Palette) -->
     <color name="dark_bg">#121212</color>
-    <color name="dark_surface">#1E1E2E</color>
-    <color name="dark_card">#2A2A3E</color>
+    <color name="dark_surface">#1E1E26</color>
+    <color name="dark_card">#2A2A36</color>
+    <color name="dark_on_surface">#E0E0E0</color>
+    <color name="dark_on_primary">#FFFFFF</color>
 
-    <!-- Text colors -->
-    <color name="text_primary">#2C2C2C</color>
+    <!-- Status & Alerts -->
+    <color name="success">#66BB6A</color>
+    <color name="error">#EF5350</color>
+    <color name="warning">#FFCA28</color>
+    <color name="info">#42A5F5</color>
+
+    <!-- UI Element Specifics -->
+    <color name="card_bg">#FFFFFF</color>
+    <color name="divider">#E0E0E0</color>
+    <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
     <color name="text_hint">#BDBDBD</color>
-
-    <!-- UI tokens -->
-    <color name="divider">#E8E0F5</color>
-    <color name="background">#FAFAFA</color>
-    <color name="surface">#FFFFFF</color>
-    <color name="success_green">#66BB6A</color>
-    <color name="warning_yellow">#FFCA28</color>
-
-    <!-- Selectors -->
-    <color name="bottom_nav_selector">#7C4DFF</color>
-    <color name="drawer_item_selector">#7C4DFF</color>
-
-    <!-- Chat bubble colors -->
+    
+    <!-- Chat specific -->
     <color name="bubble_mine">#9C88D9</color>
-    <color name="bubble_other">#EDE7F6</color>
+    <color name="bubble_other">#F0EFFF</color>
+
+    <!-- Legacy/Keep for compat -->
+    <color name="purple_dark">#4A2C8F</color>
+    <color name="purple_primary">#9C88D9</color>
+    <color name="lavender">#9C88D9</color>
+    <color name="lavender_light_transparent">#1A9C88D9</color>
+
 </resources>
