@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -50,12 +51,17 @@ public class SellerHomeFragment extends Fragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences("fastmart_prefs", Context.MODE_PRIVATE);
         String name = prefs.getString("name", "Seller");
-        String myUid = prefs.getString("uid", "");
         tvGreeting.setText("Hello, " + name + "!");
 
         rvSellerProducts.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapter = new ProductAdapter(getContext(), productList, true);
         rvSellerProducts.setAdapter(adapter);
+
+        // ✅ DYNAMIC UID: Get directly from Firebase Auth
+        String currentUid = FirebaseAuth.getInstance().getUid();
+        if (currentUid != null) {
+            loadSellerProducts(currentUid);
+        }
 
         adapter.setOnProductClickListener(product -> {
             Intent intent = new Intent(getContext(), ProductDescriptionActivity.class);
@@ -72,8 +78,6 @@ public class SellerHomeFragment extends Fragment {
 
         fabAddProduct.setOnClickListener(v ->
                 startActivity(new Intent(getContext(), ProductAddActivity.class)));
-
-        loadSellerProducts(myUid);
     }
 
     private void loadSellerProducts(String sellerId) {
@@ -93,7 +97,7 @@ public class SellerHomeFragment extends Fragment {
                         for (DataSnapshot snap : snapshot.getChildren()) {
                             try {
                                 Product product = snap.getValue(Product.class);
-                                if (product != null && sellerId.equals(product.sellerId)) {
+                                if (product != null) {
                                     productList.add(product);
                                 }
                             } catch (Exception e) {
