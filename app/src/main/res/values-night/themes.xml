@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- This automatically applies when system dark mode is ON -->
+    <style name="Theme.FastMart" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/purple_primary</item>
+        <item name="colorPrimaryVariant">@color/purple_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/purple_medium</item>
+        <item name="colorSecondaryVariant">@color/purple_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor">@color/dark_bg</item>
+        <item name="android:windowBackground">@color/dark_bg</item>
+    </style>
+</resources>

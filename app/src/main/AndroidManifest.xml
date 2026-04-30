@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FastMart"
+        tools:targetApi="31">
+
+        <!-- Splash Screen Activity (LAUNCHER) -->
+        <activity
+            android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Login & Signup Activities -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpStep2Activity"
+            android:exported="false" />
+
+        <!-- Main Activities (Buyer & Seller) -->
+        <activity
+            android:name=".BuyerMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SellerMainActivity"
+            android:exported="false" />
+
+        <!-- Product Activities -->
+        <activity
+            android:name=".ProductAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProductDescriptionActivity"
+            android:exported="false" />
+
+        <!-- Chat Activity -->
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+
+        <!-- MainActivity (if used) -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FastMart</string>
+    <string name="tagline">Shop Smart, Live Better</string>
+    <string name="discover">Discover</string>
+    <string name="my_details">My Details</string>
+    <string name="address_label">Address</string>
+    <string name="country">Country</string>
+    <string name="date_of_birth">Date of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="log_out">Log Out</string>
+    <string name="cart">Cart</string>
+    <string name="favourites">Favourites</string>
+    <string name="total_zero">Total: $0.00</string>
+    <string name="checkout">Checkout</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_type">Product Type</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_description">Product Description</string>
+    <string name="add_product">Add Product</string>
+    <string name="product_details">Product Details</string>
+    <string name="description">Description</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="close">Close</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="login_subtitle">Sign in to continue</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="no_account">Don\'t have an account? Sign Up</string>
+    <string name="step_1_of_2">Step 1 of 2</string>
+    <string name="step_2_of_2">Step 2 of 2</string>
+    <string name="create_account">Create Account</string>
+    <string name="complete_profile">Complete Profile</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="next">Next</string>
+    <string name="have_account">Already have an account? Login</string>
+    <string name="full_name">Full Name</string>
+    <string name="account_type">Account Type</string>
+    <string name="residential_address">Residential Address</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="save_profile">Save Profile</string>
+    <string name="agree_terms">I agree to the Terms and Conditions</string>
+    <string name="total_products">Total Products</string>
+    <string name="type_message">Type a message...</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_open">Open Navigation</string>
+    <string name="nav_close">Close Navigation</string>
+
+    <!-- Product Types -->
+    <string-array name="product_types">
+        <item>Electronics</item>
+        <item>Clothing</item>
+        <item>Shoes</item>
+        <item>Watches</item>
+        <item>Sunglasses</item>
+        <item>Headphones</item>
+        <item>Laptops</item>
+    </string-array>
+
+    <!-- Account Types -->
+    <string-array name="account_types">
+        <item>Buyer</item>
+        <item>Seller</item>
+    </string-array>
+</resources>

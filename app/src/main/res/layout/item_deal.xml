@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/product_default" />
+
+            <ImageButton
+                android:id="@+id/favouriteButton"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_heart_outline"
+                android:background="?attr/selectableItemBackgroundBorderless" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/productTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Product Name"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/poppins_bold"
+            android:textColor="@color/text_primary"
+            android:maxLines="1"
+            android:ellipsize="end" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/currentPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$99.99"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/poppins_bold"
+                android:textColor="@color/purple_primary" />
+
+            <TextView
+                android:id="@+id/originalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$149.99"
+                android:textSize="12sp"
+                android:fontFamily="@font/poppins_regular"
+                android:textColor="@color/text_secondary"
+                android:layout_marginStart="8dp"
+                android:paddingTop="2dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Product description here"
+            android:textSize="11sp"
+            android:fontFamily="@font/poppins_regular"
+            android:textColor="@color/text_secondary"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
