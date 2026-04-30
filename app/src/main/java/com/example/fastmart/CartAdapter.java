@@ -78,8 +78,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 db.updateCartQuantity(product.productId, item.quantity);
                 holder.tvQuantity.setText(String.valueOf(item.quantity));
                 if (totalUpdateListener != null) totalUpdateListener.onUpdate();
-            } else {
-                showDeleteConfirmation(holder, product);
             }
         });
 

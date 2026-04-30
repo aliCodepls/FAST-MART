@@ -83,6 +83,8 @@ public class SellerMainActivity extends AppCompatActivity implements NavigationV
             loadFragment(new SellerOrderHistoryFragment());
         } else if (id == R.id.navSellerAccount) {
             loadFragment(new SellerAccountFragment());
+        } else if (id == R.id.navMessages) {
+            loadFragment(new SellerChatFragment());
         } else if (id == R.id.navThemeLight) {
             applyTheme(false);
         } else if (id == R.id.navThemeDark) {

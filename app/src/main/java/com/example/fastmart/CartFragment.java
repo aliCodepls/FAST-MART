@@ -58,20 +58,54 @@ public class CartFragment extends Fragment {
     }
 
     private void loadCart() {
-        DatabaseHelper db = DatabaseHelper.getInstance(getContext());
-        cartItems = db.getAllCartItems();
+        try {
+            DatabaseHelper db = DatabaseHelper.getInstance(getContext());
+            cartItems = db.getAllCartItems();
+            if (cartItems == null) cartItems = new ArrayList<>();
 
-        adapter = new CartAdapter(getContext(), cartItems, db, this::updateTotal);
-        rvCart.setAdapter(adapter);
-        updateTotal();
+            adapter = new CartAdapter(getContext(), cartItems, db, this::updateTotal);
+            rvCart.setAdapter(adapter);
+            updateTotal();
+            updateEmptyState();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getContext(), "Error loading cart: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void updateEmptyState() {
+        try {
+            View view = getView();
+            if (view != null) {
+                View emptyState = view.findViewById(R.id.llEmptyState);
+                View checkoutCard = view.findViewById(R.id.cvCheckout);
+                
+                boolean isEmpty = cartItems == null || cartItems.isEmpty();
+                if (emptyState != null) emptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+                if (rvCart != null) rvCart.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+                if (checkoutCard != null) checkoutCard.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateTotal() {
-        double total = 0;
-        for (DatabaseHelper.CartItem item : cartItems) {
-            total += item.product.price * item.quantity;
+        try {
+            double total = 0;
+            if (cartItems != null) {
+                for (DatabaseHelper.CartItem item : cartItems) {
+                    if (item != null && item.product != null) {
+                        total += item.product.price * item.quantity;
+                    }
+                }
+            }
+            if (tvTotalPrice != null) {
+                tvTotalPrice.setText("Total: $" + String.format("%.2f", total));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        tvTotalPrice.setText("Total: $" + String.format("%.2f", total));
     }
 
     private void checkout() {
@@ -137,6 +171,7 @@ public class CartFragment extends Fragment {
         cartItems.clear();
         adapter.notifyDataSetChanged();
         updateTotal();
+        updateEmptyState();
     }
 
     @Override

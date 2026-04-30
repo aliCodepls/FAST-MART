@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Your Cart"
+                android:text="Messages"
                 android:textColor="@color/white"
                 android:textSize="28sp" />
 
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="@font/poppins_regular"
-                android:text="Ready to checkout?"
+                android:text="Reply to your customers"
                 android:textColor="#E0E0E0"
                 android:textSize="14sp" />
 
@@ -40,7 +40,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCart"
+        android:id="@+id/rvChats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -59,7 +59,7 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@drawable/ic_cart"
+            android:src="@drawable/ic_chat"
             app:tint="@color/lavender_light" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Your Cart is Empty"
+            android:text="No Messages Yet"
             android:textColor="?attr/colorOnSurface"
             android:textSize="18sp" />
 
@@ -78,68 +78,10 @@
             android:gravity="center"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
-            android:text="Looks like you haven't added anything yet. Go find something you love!"
+            android:text="Customer inquiries will appear here when they message you."
             android:textColor="@color/gray_600"
             android:textSize="14sp" />
 
     </LinearLayout>
-
-    <!-- Bottom total + checkout -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvCheckout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:cardElevation="16dp"
-        app:cardCornerRadius="0dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp"
-            android:background="?attr/colorSurface">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Total Amount"
-                    android:textColor="@color/gray_600"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_bold"
-                    android:text="$0.00"
-                    android:textColor="?attr/colorPrimary"
-                    android:textSize="22sp" />
-
-            </LinearLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCheckout"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="CHECKOUT"
-                android:textAllCaps="true"
-                android:letterSpacing="0.1"
-                app:cornerRadius="16dp"
-                app:elevation="4dp" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
