@@ -50,57 +50,39 @@ public class Product {
     public void setPrice(double price) { this.price = price; }
 
     public String getImageUrl() { 
-        return convertDriveLink(imageUrl); 
+        return imageUrl; 
     }
     
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = convertDriveLink(imageUrl);
-    }
-
-    private String convertDriveLink(String link) {
-        if (link == null || link.isEmpty()) return link;
-        
-        // If it's already a direct lh3 link, return as is
-        if (link.contains("lh3.googleusercontent.com")) {
-            return link;
-        }
-
-        // Handle various Google Drive link formats
-        if (link.contains("drive.google.com") || link.contains("docs.google.com")) {
-            Log.d("DriveConvert", "Converting Drive link: " + link);
-            try {
-                String fileId = "";
-                
-                // Pattern 1: /d/FILE_ID/ (common in browser links)
-                Pattern pattern1 = Pattern.compile("/d/([a-zA-Z0-9_-]+)");
-                Matcher matcher1 = pattern1.matcher(link);
-                if (matcher1.find()) {
-                    fileId = matcher1.group(1);
-                }
-                
-                // Pattern 2: id=FILE_ID (common in sharing/direct links)
-                if (fileId.isEmpty()) {
-                    Pattern pattern2 = Pattern.compile("id=([a-zA-Z0-9_-]+)");
-                    Matcher matcher2 = pattern2.matcher(link);
-                    if (matcher2.find()) {
-                        fileId = matcher2.group(1);
-                    }
-                }
-                
-                if (!fileId.isEmpty()) {
-                    // Using lh3.googleusercontent.com/d/ is the most reliable way to bypass
-                    // the Google Drive virus scan warning for images.
-                    String directUrl = "https://lh3.googleusercontent.com/d/" + fileId;
-                    Log.d("DriveConvert", "Success! ID: " + fileId);
-                    return directUrl;
-                } else {
-                    Log.e("DriveConvert", "Could not extract File ID from link: " + link);
-                }
-            } catch (Exception e) {
-                Log.e("DriveConvert", "Error converting Drive link", e);
+        if (imageUrl != null && (imageUrl.contains("drive.google.com") || 
+                                imageUrl.contains("docs.google.com") || 
+                                imageUrl.contains("google.com/file/d/"))) {
+            String fileId = ImageUtils.extractFileId(imageUrl);
+            if (!fileId.isEmpty()) {
+                // Automatically convert to the best format (Stage 0)
+                this.imageUrl = ImageUtils.getDriveFormat(fileId, 0);
+                return;
             }
         }
-        return link;
+        this.imageUrl = imageUrl;
+    }
+
+    /**
+     * Helper to get a working image URL.
+     * @param attempt 0 for primary, 1/2 for fallbacks
+     */
+    public String getUsableImageUrl(int attempt) {
+        if (imageUrl == null || imageUrl.isEmpty()) return "";
+        
+        // If not a Drive link, return original on first attempt
+        if (!imageUrl.contains("drive.google.com") && 
+            !imageUrl.contains("docs.google.com") && 
+            !imageUrl.contains("google.com/file/d/")) {
+            return attempt == 0 ? imageUrl : "";
+        }
+
+        String fileId = ImageUtils.extractFileId(imageUrl);
+        return ImageUtils.getDriveFormat(fileId, attempt);
     }
 
     public double getRating() { return rating; }

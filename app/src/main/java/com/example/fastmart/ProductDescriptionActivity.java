@@ -10,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import android.graphics.drawable.Drawable;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 
 public class ProductDescriptionActivity extends AppCompatActivity {
 
@@ -48,14 +52,38 @@ public class ProductDescriptionActivity extends AppCompatActivity {
             // Re-fetch through Product model for safety
             Product temp = new Product();
             temp.setImageUrl(imageUrl);
-            String usableUrl = temp.getImageUrl();
             
-            Glide.with(this)
-                    .load(usableUrl)
-                    .placeholder(R.drawable.product_default)
-                    .error(R.drawable.product_default)
-                    .centerCrop()
-                    .into(ivProduct);
+            String url0 = temp.getUsableImageUrl(0);
+            String url1 = temp.getUsableImageUrl(1);
+            String url2 = temp.getUsableImageUrl(2);
+
+            GlideUrl glideUrl0 = new GlideUrl(url0, new LazyHeaders.Builder()
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .build());
+
+            // Stage 1
+            RequestBuilder<Drawable> request = Glide.with(this).load(glideUrl0);
+            
+            // Stage 2 fallback
+            if (!url1.isEmpty()) {
+                request = request.error(Glide.with(this)
+                        .load(new GlideUrl(url1, new LazyHeaders.Builder()
+                                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                                .build())));
+            }
+
+            // Stage 3 fallback
+            if (!url2.isEmpty()) {
+                request = request.error(Glide.with(this)
+                        .load(new GlideUrl(url2, new LazyHeaders.Builder()
+                                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                                .build())));
+            }
+
+            request.placeholder(R.drawable.product_default)
+                   .error(R.drawable.product_default)
+                   .centerCrop()
+                   .into(ivProduct);
         } else {
             ivProduct.setImageResource(R.drawable.product_default);
         }

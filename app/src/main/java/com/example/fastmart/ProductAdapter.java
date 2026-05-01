@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestBuilder;
+import android.graphics.drawable.Drawable;
 
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -20,10 +22,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import androidx.annotation.Nullable;
 import android.util.Log;
 import java.util.List;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 
-import androidx.annotation.Nullable;
+import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
@@ -67,27 +72,39 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = products.get(position);
 
         // Load image: prefer imageUrl from Firebase, fallback to local drawable
-        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-            Glide.with(context)
-                    .load(product.getImageUrl())
-                    .listener(new RequestListener<android.graphics.drawable.Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
-                            Log.e("GlideError", "IMAGE FAILED: " + product.getImageUrl());
-                            if (e != null) e.logRootCauses("GlideError");
-                            return false;
-                        }
+        // Final fallback chain: lh3 -> uc -> thumbnail -> default
+        String url0 = product.getUsableImageUrl(0);
+        String url1 = product.getUsableImageUrl(1);
+        String url2 = product.getUsableImageUrl(2);
 
-                        @Override
-                        public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, Target<android.graphics.drawable.Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                            Log.d("GlideSuccess", "Loaded: " + product.getImageUrl());
-                            return false;
-                        }
-                    })
-                    .placeholder(R.drawable.product_default)
-                    .error(R.drawable.product_default)
-                    .centerCrop()
-                    .into(holder.ivProductImage);
+        if (!url0.isEmpty()) {
+            GlideUrl glideUrl0 = new GlideUrl(url0, new LazyHeaders.Builder()
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .build());
+
+            // Stage 1
+            RequestBuilder<Drawable> request = Glide.with(context).load(glideUrl0);
+            
+            // Stage 2 fallback
+            if (!url1.isEmpty()) {
+                request = request.error(Glide.with(context)
+                        .load(new GlideUrl(url1, new LazyHeaders.Builder()
+                                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                                .build())));
+            }
+
+            // Stage 3 fallback
+            if (!url2.isEmpty()) {
+                request = request.error(Glide.with(context)
+                        .load(new GlideUrl(url2, new LazyHeaders.Builder()
+                                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                                .build())));
+            }
+
+            request.placeholder(R.drawable.product_default)
+                   .error(R.drawable.product_default)
+                   .centerCrop()
+                   .into(holder.ivProductImage);
         } else {
             holder.ivProductImage.setImageResource(
                     product.getImageResId() != 0 ? product.getImageResId() : R.drawable.product_default);

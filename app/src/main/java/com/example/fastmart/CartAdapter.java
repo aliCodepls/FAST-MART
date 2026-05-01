@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+import com.bumptech.glide.RequestBuilder;
+import android.graphics.drawable.Drawable;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
@@ -48,25 +52,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         DatabaseHelper.CartItem item = cartItems.get(position);
         Product product = item.product;
 
-        // ✅ Load from imageUrl with Glide
-        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-            Glide.with(context)
-                    .load(product.getImageUrl())
-                    .listener(new com.bumptech.glide.request.RequestListener<android.graphics.drawable.Drawable>() {
-                        @Override
-                        public boolean onLoadFailed(@androidx.annotation.Nullable com.bumptech.glide.load.engine.GlideException e, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, boolean isFirstResource) {
-                            android.util.Log.e("GlideError_Cart", "FAILED: " + product.getImageUrl());
-                            return false;
-                        }
-                        @Override
-                        public boolean onResourceReady(android.graphics.drawable.Drawable resource, Object model, com.bumptech.glide.request.target.Target<android.graphics.drawable.Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                    .placeholder(R.drawable.product_default)
-                    .error(R.drawable.product_default)
-                    .centerCrop()
-                    .into(holder.ivProductImage);
+        String url0 = product.getUsableImageUrl(0);
+        String url1 = product.getUsableImageUrl(1);
+        String url2 = product.getUsableImageUrl(2);
+
+        if (!url0.isEmpty()) {
+            GlideUrl glideUrl0 = new GlideUrl(url0, new LazyHeaders.Builder()
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                    .build());
+
+            // Stage 1
+            RequestBuilder<Drawable> request = Glide.with(context).load(glideUrl0);
+            
+            // Stage 2 fallback
+            if (!url1.isEmpty()) {
+                request = request.error(Glide.with(context)
+                        .load(new GlideUrl(url1, new LazyHeaders.Builder()
+                                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                                .build())));
+            }
+
+            // Stage 3 fallback
+            if (!url2.isEmpty()) {
+                request = request.error(Glide.with(context)
+                        .load(new GlideUrl(url2, new LazyHeaders.Builder()
+                                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+                                .build())));
+            }
+
+            request.placeholder(R.drawable.product_default)
+                   .error(R.drawable.product_default)
+                   .centerCrop()
+                   .into(holder.ivProductImage);
         } else {
             holder.ivProductImage.setImageResource(
                     product.getImageResId() != 0 ? product.getImageResId() : R.drawable.product_default);
